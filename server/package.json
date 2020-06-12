@@ -8,12 +8,16 @@
     "test": "jest --verbose --coverage",
     "lint": "tslint --project=./tsconfig.json"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/200427-Revature-Training/hugh_thornhill_p1.git"
+  },
   "author": "Hugh Thornhill",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/200427-Revature-Training/hugh_thornhill_project1/issues"
+    "url": "https://github.com/200427-Revature-Training/hugh_thornhill_p1/issues"
   },
-  "homepage": "https://github.com/200427-Revature-Training/hugh_thornhill_project1#readme",
+  "homepage": "https://github.com/200427-Revature-Training/hugh_thornhill_p1#readme",
   "dependencies": {
     "@types/ejs": "^3.0.4",
     "@types/express-flash": "0.0.2",
