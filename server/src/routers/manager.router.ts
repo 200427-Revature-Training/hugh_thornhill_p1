@@ -3,6 +3,7 @@ import express from 'express';
 import * as managerService from '../services/manager.service';
 import { User } from '../models/User';
 export const managerRouter = express.Router();
+
 managerRouter.get('/reimbursements/all', (request, response, next) =>{
     console.log('Request received - processing at app.get');
     managerService.getAllReimbursements().then(reimbursements => {

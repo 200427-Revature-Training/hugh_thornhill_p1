@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 
 async function encrypt () {
-    let pw = await bcrypt.hash('123',10);
+    let pw = await bcrypt.hash('1234',10);
     console.log(pw);    
 }
 
