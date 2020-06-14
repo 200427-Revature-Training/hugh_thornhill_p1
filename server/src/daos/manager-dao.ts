@@ -6,12 +6,14 @@ import { ReimbursementPatch, ReimbursementPatchRow } from '../models/Reimburseme
 import { ReimbursementManagerView, ReimbursementManagerViewRow } from '../models/ReimbursementManagerView';
 import { User, UserRow } from '../models/User';
 // import { ReimbursementStatus, ReimbursementStatusRow } from '../models/ReimbursementStatus';
-// Manager login
-export async function getUser(email: string): Promise<User[]>{
-    const sql = `SELECT * FROM public.ers_users WHERE user_email = $1`;
-    const result = await db.query<UserRow>(sql, [email]);
-    return result.rows.map(User.from);
-}
+
+// // Manager login Old Method
+// export async function getUser(email: string): Promise<User[]>{
+//     const sql = `SELECT * FROM public.ers_users WHERE user_email = $1`;
+//     const result = await db.query<UserRow>(sql, [email]);
+//     return result.rows.map(User.from);
+// }
+
 // Get all reimbursements
 export function getAllReimbursements(): Promise<ReimbursementManagerView[]> {
     const sql = `SELECT * FROM public.ers_reimbursement_manager_view`;
@@ -21,6 +23,7 @@ export function getAllReimbursements(): Promise<ReimbursementManagerView[]> {
            return reimbursements;
        });
 }
+
 // Get reimbursement request by id
 export function getReimbursementById(id: number): Promise<ReimbursementManagerView> {
     const sql = `SELECT * FROM ers_reimbursement_manager_view \
@@ -28,6 +31,7 @@ export function getReimbursementById(id: number): Promise<ReimbursementManagerVi
     return db.query<ReimbursementManagerViewRow>(sql,[id])
     .then(result => result.rows.map(row => ReimbursementManagerView.from(row))[0]);
 }
+
 // Get reimbursement requests by status id MAY POSSIBLY EDIT THIS METHOD
 export function getAllReimbursementsByStatus(reimbStatusId: number): Promise<Reimbursement[]> {
     // const sql = `SELECT * FROM FROM public.ers_reimbursement_manager_view /
@@ -42,6 +46,7 @@ export function getAllReimbursementsByStatus(reimbStatusId: number): Promise<Rei
             return reimbursements;
         });
 }
+
 // Update a request
 export function patchReimbursement(reimbursementPatch: ReimbursementPatch): Promise<ReimbursementPatch> {
     const sql = `UPDATE ers_reimbursement SET reimb_amount = COALESCE($1, reimb_amount), \

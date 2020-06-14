@@ -44,19 +44,21 @@ managerRouter.get('/reimbursement/:id', async (request, response, next) => {
         next();
     }
 });
-managerRouter.get('/:email', async (request, response, next) => {
-    console.log('Request received - processing at app.get');
-    const email = request.params.email;
-    let manager: User[];
-    try{
-        manager = await managerService.getUser(email);
-        response.json(manager);
-    }catch (err){
-        response.sendStatus(500);
-        console.log(err);
-        return;
-    }
-});
+
+// managerRouter.get('/:email', async (request, response, next) => {
+//     console.log('Request received - processing at app.get');
+//     const email = request.params.email;
+//     let manager: User[];
+//     try{
+//         manager = await managerService.getUser(email);
+//         response.json(manager);
+//     }catch (err){
+//         response.sendStatus(500);
+//         console.log(err);
+//         return;
+//     }
+// });
+
 managerRouter.patch('', (request, response, next) => {
     const reimbursement = request.body;
     managerService.patchReimbursement(reimbursement)

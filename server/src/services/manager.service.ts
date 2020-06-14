@@ -4,10 +4,10 @@ import { ReimbursementManagerView } from '../models/ReimbursementManagerView';
 import * as managerDao from '../daos/manager-dao';
 import { User } from '../models/User';
 
-export function getUser(email: string): Promise<User[]> {
-    //console.log(email, "Reached Serivce");
-    return managerDao.getUser(email);
-}
+// export function getUser(email: string): Promise<User[]> {
+//     //console.log(email, "Reached Serivce");
+//     return managerDao.getUser(email);
+// }
 
 export function getAllReimbursements(): Promise<ReimbursementManagerView[]> {
     return managerDao.getAllReimbursements();

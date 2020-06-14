@@ -43,9 +43,12 @@ async function initialize(passport,){
         role = user.map(e => e.roleId);
         console.log(role)
         if(user.length == 0){
-            return done(null, false, { message: "User Does Not Exist"} )
+            return done(null, false, { message: "User Does Not Exist"});
         }
         try{
+            // if else statement compare role and if manager go to that route (response.redirect),
+            // if employee then go to employee route
+            // put it in a middleware
             if( await bcrypt.compare(password, pass.toString())){
                 return done(null,user)
             }else{
