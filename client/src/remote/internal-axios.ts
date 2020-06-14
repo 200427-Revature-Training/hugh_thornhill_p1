@@ -1,4 +1,3 @@
-
 import Axios from 'axios';
 
 const server = !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ?
@@ -10,8 +9,8 @@ export const internalAxios = Axios.create({
 
 export const authAxios = Axios.create({
     baseURL: server,
-    // headers: {
-    //     Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-    // }
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    }
 
 })
