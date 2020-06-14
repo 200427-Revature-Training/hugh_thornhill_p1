@@ -52,7 +52,7 @@ app.use(bodyParser.json());
 // app.use('/', loginRouter);
 // app.use('/portal', portalRouter);
 app.use('/user', userRouter);
-app.use('/reimbursement', employeeRouter);
+app.use('/employee', employeeRouter);
 app.use('/manager', managerRouter);
 
 // app.delete('/logout', (req, res) => {

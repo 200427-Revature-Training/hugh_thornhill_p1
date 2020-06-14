@@ -1,10 +1,12 @@
 // manager.router
 import express from 'express';
 import * as managerService from '../services/manager.service';
-import { User } from '../models/User';
+// import { User } from '../models/User';
+import * as authenticate from './user.router';
+
 export const managerRouter = express.Router();
 
-managerRouter.get('/reimbursements/all', (request, response, next) =>{
+managerRouter.get('/reimbursements/all', authenticate.authenticateToken, (request, response, next) =>{
     console.log('Request received - processing at app.get');
     managerService.getAllReimbursements().then(reimbursements => {
         response.json(reimbursements);
@@ -14,7 +16,8 @@ managerRouter.get('/reimbursements/all', (request, response, next) =>{
         response.sendStatus(500);
     });
 });
-managerRouter.get('/status/:reimbStatusId', async (request, response, next) => {
+
+managerRouter.get('/status/:reimbStatusId', authenticate.authenticateToken, async (request, response, next) => {
     const reimbStatusId: number = +request.params.reimbStatusId;
     try {
         const reimbursements = await managerService.getAllReimbursementsByStatus(reimbStatusId);
@@ -29,7 +32,8 @@ managerRouter.get('/status/:reimbStatusId', async (request, response, next) => {
         next();
     }
 });
-managerRouter.get('/reimbursement/:id', async (request, response, next) => {
+
+managerRouter.get('/reimbursements/:id', authenticate.authenticateToken, async (request, response, next) => {
     const reimbursementId: number = +request.params.id;
     try{
         const reimbursementById = await managerService.getReimbursementById(reimbursementId);
@@ -59,7 +63,7 @@ managerRouter.get('/reimbursement/:id', async (request, response, next) => {
 //     }
 // });
 
-managerRouter.patch('', (request, response, next) => {
+managerRouter.patch('', authenticate.authenticateToken, (request, response, next) => {
     const reimbursement = request.body;
     managerService.patchReimbursement(reimbursement)
         .then(updatedReimbursement => {

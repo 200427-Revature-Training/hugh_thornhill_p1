@@ -49,12 +49,13 @@ export function getAllReimbursementsByStatus(reimbStatusId: number): Promise<Rei
 
 // Update a request
 export function patchReimbursement(reimbursementPatch: ReimbursementPatch): Promise<ReimbursementPatch> {
-    const sql = `UPDATE ers_reimbursement SET reimb_amount = COALESCE($1, reimb_amount), \
-    reimb_description =  COALESCE($2, reimb_description), reimb_receipt = COALESCE($3, reimb_receipt), \
-    reimb_resolver = COALESCE($4, reimb_resolver), reimb_status_id = COALESCE($5, reimb_status_id), \
-    reimb_type_id = COALESCE($6, reimb_type_id) WHERE id = $7 RETURNING *`;
+    const sql = `UPDATE ers_reimbursement SET reimb_amount = COALESCE($1, reimb_amount), reimb_resolved = COALESCE($2, reimb_resolved),\
+    reimb_description =  COALESCE($3, reimb_description), reimb_receipt = COALESCE($4, reimb_receipt), \
+    reimb_resolver = COALESCE($5, reimb_resolver), reimb_status_id = COALESCE($6, reimb_status_id), \
+    reimb_type_id = COALESCE($7, reimb_type_id) WHERE id = $8 RETURNING *`;
     const params = [
                     reimbursementPatch.reimbAmount,
+                    reimbursementPatch.reimbResolved,
                     reimbursementPatch.reimbDescription,
                     reimbursementPatch.reimbReceipt,
                     reimbursementPatch.reimbResolver,

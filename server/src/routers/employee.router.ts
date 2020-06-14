@@ -1,13 +1,13 @@
 // employee.router
 import express from 'express';
 import * as employeeService from '../services/employee.service';
+import * as authenticate from './user.router';
 // import { User } from '../models/User';
 import { ReimbursementPost } from '../models/ReimbursementPost';
-import * as authenticate from './user.router';
 
 export const employeeRouter = express.Router();
 
-employeeRouter.get('/employee/:reimbAuthorId', authenticate.authenticateToken, async (request, response, next) => {
+employeeRouter.get('/:reimbAuthorId/reimbursements', authenticate.authenticateToken, async (request, response, next) => {
     console.log('Request received - processing at app.get');
     const reimbAuthorId: number = +request.params.reimbAuthorId;
     console.log(reimbAuthorId);

@@ -27,6 +27,7 @@ export function patchReimbursement(input: any): Promise<ReimbursementPatch> {
     const reimbursementPatch = new ReimbursementPatch(
         input.id,
         input.reimbAmount,
+        new Date(),
         input.reimbDescription,
         input.reimbReceipt,
         input.reimbResolver,

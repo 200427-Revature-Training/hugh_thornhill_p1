@@ -1,6 +1,7 @@
 export class ReimbursementPatch {
     id: number;
     reimbAmount: number;
+    reimbResolved: Date;
     reimbDescription: string;
     reimbReceipt: string;
     reimbResolver: number;
@@ -11,6 +12,7 @@ export class ReimbursementPatch {
         const reimbursement = new ReimbursementPatch(
             obj.id,
             obj.reimb_amount,
+            new Date(),
             obj.reimb_description,
             obj.reimb_receipt,
             obj.reimb_resolver,
@@ -23,6 +25,7 @@ export class ReimbursementPatch {
     constructor(
         id: number,
         reimbAmount: number,
+        reimbResolved: Date,
         reimbDescription: string,
         reimbReceipt: string,
         reimbResolver: number,
@@ -32,6 +35,7 @@ export class ReimbursementPatch {
     {
     this.id = id;
     this.reimbAmount = reimbAmount;
+    this.reimbResolved = reimbResolved;
     this.reimbDescription = reimbDescription;
     this.reimbReceipt = reimbReceipt;
     this.reimbResolver = reimbResolver;
@@ -43,6 +47,7 @@ export class ReimbursementPatch {
 export interface ReimbursementPatchRow {
     id: number;
     reimb_amount: number;
+    reimb_resolved: string;
     reimb_description: string;
     reimb_receipt: string;
     reimb_resolver: number;

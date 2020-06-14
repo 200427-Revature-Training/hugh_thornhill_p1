@@ -25,14 +25,16 @@ export function getAllReimbursements(reimbAuthor: number): Promise<Reimbursement
 // Save new remibursement
 export function saveReimbursement(reimbursement: ReimbursementPost): Promise<ReimbursementPost> {
     const sql = `INSERT INTO public.ers_reimbursement (reimb_amount, reimb_submitted, \
-        reimb_description, reimb_receipt, reimb_author, \ reimb_status_id, reimb_type_id) \
-        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+        reimb_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, \
+        reimb_status_id, reimb_type_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`;
         return db.query<ReimbursementPostRow>(sql, [
             reimbursement.reimbAmount,
             new Date(),
+            null,
             reimbursement.reimbDescription,
             reimbursement.reimbReceipt,
             reimbursement.reimbAuthor,
+            null,
             1,
             reimbursement.reimbTypeId
         ]).then(result => result.rows.map(row => ReimbursementPost.from(row))[0]);
