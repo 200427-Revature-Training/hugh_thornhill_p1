@@ -6,7 +6,7 @@ import * as authenticate from './user.router';
 
 export const managerRouter = express.Router();
 
-managerRouter.get('/reimbursements/all', authenticate.authenticateToken, (request, response, next) =>{
+managerRouter.get('/reimbursements/all', /*authenticate.authenticateToken,*/ (request, response, next) =>{
     console.log('Request received - processing at app.get');
     managerService.getAllReimbursements().then(reimbursements => {
         response.json(reimbursements);
@@ -17,7 +17,7 @@ managerRouter.get('/reimbursements/all', authenticate.authenticateToken, (reques
     });
 });
 
-managerRouter.get('/status/:reimbStatusId', authenticate.authenticateToken, async (request, response, next) => {
+managerRouter.get('/status/:reimbStatusId', /*authenticate.authenticateToken,*/ async (request, response, next) => {
     const reimbStatusId: number = +request.params.reimbStatusId;
     try {
         const reimbursements = await managerService.getAllReimbursementsByStatus(reimbStatusId);
@@ -33,7 +33,7 @@ managerRouter.get('/status/:reimbStatusId', authenticate.authenticateToken, asyn
     }
 });
 
-managerRouter.get('/reimbursements/:id', authenticate.authenticateToken, async (request, response, next) => {
+managerRouter.get('/reimbursements/:id', /*authenticate.authenticateToken,*/ async (request, response, next) => {
     const reimbursementId: number = +request.params.id;
     try{
         const reimbursementById = await managerService.getReimbursementById(reimbursementId);
@@ -63,7 +63,7 @@ managerRouter.get('/reimbursements/:id', authenticate.authenticateToken, async (
 //     }
 // });
 
-managerRouter.patch('', authenticate.authenticateToken, (request, response, next) => {
+managerRouter.patch('', /*authenticate.authenticateToken,*/ (request, response, next) => {
     const reimbursement = request.body;
     managerService.patchReimbursement(reimbursement)
         .then(updatedReimbursement => {

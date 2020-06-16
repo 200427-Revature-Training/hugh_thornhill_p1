@@ -20,7 +20,7 @@ export function registerUser(user:User): Promise<User>{
 )}
 
 export function loginUser(user: User):Promise<User> {
-    const sql = 'SELECT * from ers_users Where ers_username=$1';
+    const sql = 'SELECT * from ers_users Where ers_username= $1';
 
     return db.query<UserRow>(sql, [
       user.userName

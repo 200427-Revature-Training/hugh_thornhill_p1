@@ -1,7 +1,7 @@
 
 import express from 'express';
 import * as userService from '../services/user.service';
-// import { User } from '../models/User';
+import { User } from '../models/User';
 import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 
@@ -17,7 +17,7 @@ export const authenticateToken = (request, response, next) => {
         jsonwebtoken.verify(token, secretKey, (err, user) => {
             if(err){
                 console.log(err);
-                response.sendStatus(403);
+                return response.sendStatus(403);
             }
             request.user = user;
             next();
@@ -79,37 +79,76 @@ userRouter.post('/register', async (request, response, next) => {
     });
 });
 
+// userRouter.post('/login', async (request, response, next) => {
+//     console.log("logging in");
+//     const credentials = request.body;
+//     let users: User;
+//     const user: any = {
+//         userName: request.body.userName,
+//         password: request.body.password,
+//         firstName: request.body.firstName,
+//         lastName: request.body.lastName,
+//         email: request.body.email,
+//         roleId: request.body.roleId
+//     }
+//     userService.loginUser(user).then(usr => {
+//         console.log(users.password);
+//         bcrypt.compare(request.body.password, users.password).then((match) => {
+//             console.log(users.password);
+//             console.log(match);
+//             if(match) {
+//                 const accessToken = jsonwebtoken.sign(user, secretKey);
+//                 const result = {
+//                     accessToken: {accessToken},
+//                     user: users
+//                 }
+//                 response.json(result);
+//                 console.log(result);
+//                 next();
+//             }
+//             else{
+//                 response.sendStatus(500);
+//                 console.log(response);
+//             }
+//         });
+//     }).catch(err => {
+//         console.log(err);
+//         response.sendStatus(500);
+//     })
+// })
+
 userRouter.post('/login', async (request, response, next) => {
     console.log("logging in");
-    // const credentials = request.body;
-    // let UserResponse: User;
-    const user: any = {
-        userName: request.body.userName,
-        password: request.body.password,
-        firstName: request.body.firstName,
-        lastName: request.body.lastName,
-        email: request.body.email,
-        roleId: request.body.roleId
+    const credentials = request.body;
+    let userResponse: User;
+
+    try {
+        userResponse = await userService.loginUser(credentials);
+        console.log(credentials);
+    } catch(err) {
+        response.status(err);
+        return;
     }
-    userService.loginUser(user).then(users => {
-        bcrypt.compare(request.body.password, users.password).then((match) => {
-            if(match) {
-                const accessToken = jsonwebtoken.sign(user, secretKey);
-                const result = {
-                    accessToken: {accessToken},
-                    user: users
-                }
-                response.json(result);
-                console.log(result);
-                next();
-            }
-            else{
-                response.sendStatus(500);
-                console.log(response);
-            }
-        });
-    }).catch(err => {
-        console.log(err);
-        response.sendStatus(500);
-    })
-})
+
+    if(!userResponse) {
+        console.log(userResponse);
+        response.sendStatus(404);
+    } else {
+        const match = bcrypt.compare(credentials.password, userResponse.password);
+
+        if(match) {
+            const accessToken = jsonwebtoken.sign({ username: userResponse.userName }, secretKey, { expiresIn: '20m' });
+            const id = userResponse.id;
+            const firstName = userResponse.firstName;
+            const lastName = userResponse.lastName;
+            const email = userResponse.email;
+            const userRoleId = userResponse.roleId;
+            response.status(201);
+            response.json({ accessToken, id, firstName, lastName, email, userRoleId });
+        } else {
+            response.sendStatus(401);
+            console.log('Wrong');
+        }
+        next();
+    }
+});

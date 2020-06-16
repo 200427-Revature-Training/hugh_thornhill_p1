@@ -8,8 +8,20 @@ export function registerUser(user:User): Promise<User>{
 }
 
 export function loginUser(user:User): Promise<User>{
-    console.log('Login for ' + user);
-    return userDao.loginUser(user);
+    const newLogin = new User(
+        user.id,
+        user.userName,
+        user.password,
+        user.firstName,
+        user.lastName,
+        user.email,
+        user.roleId
+    );
+    if (user.userName && user.password) {
+        return userDao.loginUser(newLogin);
+    } else {
+        return new Promise((resolve, reject) => reject(422));
+    }
 }
 
 // export function getUserById(id: number): Promise<User> {

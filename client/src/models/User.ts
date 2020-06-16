@@ -51,6 +51,6 @@ export interface UserRow {
 }
 
 export interface Credentials {
-    username: string;
+    userName: string;
     password: string;
 }
