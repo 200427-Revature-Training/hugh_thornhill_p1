@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as loginRemote from '../../remote/login.remote';
 import { useHistory } from 'react-router';
 import { withRouter } from 'react-router-dom';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 const LoginComponent: React.FC = () => {
     const [inputUserName, setInputUsername] = useState('');
@@ -46,27 +47,34 @@ const LoginComponent: React.FC = () => {
         }
 
     return (
-        <div>
-            <h1>Sign In</h1>
-            <form>
-                <label>Username </label>
-                <input value={inputUserName}
-                id="username"
-                name="username"
-                onChange={(e) => setInputUsername(e.target.value)}>
-                </input>
-                <br />
-                <label>Password </label>
-                <input value = {inputUserPassword}
-                type="password"
-                id="password"
-                name="password"
-                onChange={(e) => setInputUserPassword(e.target.value)}>
-                </input>
-            </form>
-            <button type = "submit"
-            onClick={() => loginCredentials()}>Login</button>
-        </div>
+        <Container>
+            <Row>
+                <Col>
+                    <Form>
+                        <Form.Label><h2>Sign In</h2></Form.Label>
+                        <Form.Group controlId="formUsername">
+                            <Form.Label>Username </Form.Label>
+                            <Form.Control value={inputUserName}
+                            id="username"
+                            name="username"
+                            onChange={(e) => setInputUsername(e.target.value)} />
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control value = {inputUserPassword}
+                            type="password"
+                            id="password"
+                            name="password"
+                            onChange={(e) => setInputUserPassword(e.target.value)} />
+                        </Form.Group>
+                    </Form>
+                        <Button type = "submit" onClick={() => loginCredentials()}>
+                            Login
+                        </Button>
+                </Col>
+            </Row>
+        </Container>
     );
 }
 export default withRouter(LoginComponent);
